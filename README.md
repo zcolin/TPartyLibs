@@ -1,5 +1,5 @@
 # TPartyLibs
-##封装常用的第三方库
+## 封装常用的第三方库
 此项目包含：
 
 1. libAmapLocation - 高德定位 
