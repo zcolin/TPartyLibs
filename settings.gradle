@@ -1,1 +1,1 @@
-include ':app', ':libShareSdk', ':libAmapLocation', ':autoUpdate_Baidu', ':autoUpdate_360' 
+include ':app', ':libShareSdk', ':libAmapLocation', ':autoUpdate_Baidu', ':autoUpdate_360', ':libbaidumaplocation'

@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest package="com.zcolin.tpartydemo"
-          xmlns:android="http://schemas.android.com/apk/res/android"
-    >
+          xmlns:android="http://schemas.android.com/apk/res/android">
 
     <uses-permission android:name="android.permission.CHANGE_CONFIGURATION"/>
     <!-- 操作摄像头 -->
@@ -58,11 +57,16 @@
             </intent-filter>
         </activity>
 
+        <!--高德定位-->
         <meta-data
             android:name="com.amap.api.v2.apikey"
-            android:value="b1452dfd87b5777103a64ae2c6537645">
-        </meta-data>
-        
+            android:value="b1452dfd87b5777103a64ae2c6537645"/>
+
+        <!--百度定位-->
+        <meta-data
+            android:name="com.baidu.lbsapi.API_KEY"
+            android:value="s4bbFGqQTwZtiXjsGS9DrcUDGkaGBnkx"/>
+
     </application>
 
 </manifest>
