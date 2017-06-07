@@ -18,4 +18,5 @@
         android:layout_alignParentBottom="true"
         android:orientation="vertical">
     </LinearLayout>
+
 </RelativeLayout>

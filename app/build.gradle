@@ -116,8 +116,10 @@ android {
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
     compile 'com.android.support:recyclerview-v7:24.2.1'
-    compile 'com.github.zcolin:ZUILib:latest.release'//UI库 
-    compile 'com.github.zcolin:ZFrame:1.2.5'//程序框架 
+    compile 'com.github.zcolin:ZUILib:latest.release'
+    //UI库
+    compile 'com.github.zcolin:ZFrame:1.2.5'
+    //程序框架
     //    facebook调试工具 使用chrome查看，可以进行数据库和http报文查看
     //    compile 'com.facebook.stetho:stetho:1.4.2'
     //    compile 'com.facebook.stetho:stetho-okhttp3:1.4.2'
@@ -127,6 +129,7 @@ dependencies {
     //    testCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.5'
     compile project(':libAmapLocation')
     compile project(':libShareSdk')
+    compile project(':libbaidumaplocation')
 }
 
 

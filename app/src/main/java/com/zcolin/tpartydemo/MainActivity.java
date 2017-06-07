@@ -18,6 +18,8 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 
 import com.amap.api.location.AMapLocation;
+import com.baidu.location.BDLocation;
+import com.tyr.libbaidumaplocation.BaiduMapLocationUtil;
 import com.zcolin.frame.app.BaseFrameActivity;
 import com.zcolin.frame.permission.PermissionHelper;
 import com.zcolin.frame.permission.PermissionsResultAction;
@@ -49,7 +51,8 @@ public class MainActivity extends BaseFrameActivity implements View.OnClickListe
 
     private void init() {
         llContent = (LinearLayout) findViewById(R.id.ll_content);
-        listButton.add(addButton("定位"));
+        listButton.add(addButton("高德地图定位"));
+        listButton.add(addButton("百度地图定位"));
         listButton.add(addButton("分享"));
 
         for (Button btn : listButton) {
@@ -67,7 +70,7 @@ public class MainActivity extends BaseFrameActivity implements View.OnClickListe
         return button;
     }
 
-    private void location() {
+    private void amapLocation() {
         PermissionHelper.requestPermission(mActivity, new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.WRITE_EXTERNAL_STORAGE}, new PermissionsResultAction() {
             @Override
             public void onGranted() {
@@ -97,7 +100,7 @@ public class MainActivity extends BaseFrameActivity implements View.OnClickListe
 
                                @Override
                                public boolean submit() {
-                                   location();
+                                   amapLocation();
                                    return true;
                                }
                            });
@@ -119,12 +122,57 @@ public class MainActivity extends BaseFrameActivity implements View.OnClickListe
         });
     }
 
+    private void baiduMaplocation() {
+        PermissionHelper.requestPermission(mActivity, new String[]{Manifest.permission.READ_PHONE_STATE, Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.WRITE_EXTERNAL_STORAGE}, new PermissionsResultAction() {
+            @Override
+            public void onGranted() {
+                final BaiduMapLocationUtil location = new BaiduMapLocationUtil(mActivity);
+                location.startLocation(new BaiduMapLocationUtil.OnGetLocation() {
+                    @Override
+                    public void getLocation(BDLocation location) {
+                        if (location != null) {
+                            new ZAlert(mActivity).setMessage(location.getAddrStr())
+                                                 .show();
+                        }
+                    }
+
+                    @Override
+                    public void locationFail() {
+                        ZConfirm dlg = new ZConfirm(mActivity);
+                        dlg.setTitle("定位失败, 是否尝试再次定位？")
+                           .addSubmitListener(new ZDialog.ZDialogSubmitInterface() {
+
+                               @Override
+                               public boolean submit() {
+                                   baiduMaplocation();
+                                   return true;
+                               }
+                           });
+                        dlg.addCancelListener(new ZDialog.ZDialogCancelInterface() {
+                            @Override
+                            public boolean cancel() {
+                                return true;
+                            }
+                        });
+                        dlg.show();
+                    }
+                });
+            }
+
+            @Override
+            public void onDenied(String permission) {
+                ToastUtil.toastShort("请授予本程序[读取手机状态]、[定位]和[写SD卡权限]");
+            }
+        });
+    }
 
     @Override
     public void onClick(View v) {
         if (v == listButton.get(0)) {
-            location();
+            amapLocation();
         } else if (v == listButton.get(1)) {
+            baiduMaplocation();
+        } else if (v == listButton.get(2)) {
             new ShareSocial(mActivity).setTitle("分享")
                                       .setContent("分享内容")
                                       .setTargetUrl("http://www.baidu.com")
@@ -132,4 +180,5 @@ public class MainActivity extends BaseFrameActivity implements View.OnClickListe
                                       .share();
         }
     }
+
 }
