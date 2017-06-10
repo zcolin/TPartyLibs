@@ -16,10 +16,15 @@
 #   public *;
 #}
 
-# Uncomment this to preserve the line number information for
-# debugging stack traces.
-#-keepattributes SourceFile,LineNumberTable
+# 百度地图、定位、导航
+-dontwarn com.baidu.**
+-keep class com.baidu.** {*;}
+-keep class vi.com.gdi.bgl.android.**{*;}
 
-# If you keep the line number information, uncomment this to
-# hide the original source file name.
-#-renamesourcefileattribute SourceFile
+-dontwarn com.baidu.navisdk.**
+-keep class com.baidu.navisdk.** { *; }
+-keep interface com.baidu.navisdk.** { *; }
+
+-dontwarn com.sinovoice.hcicloudsdk.**
+-keep class com.sinovoice.hcicloudsdk.**{*;}
+-keep interface com.sinovoice.hcicloudsdk.**{*;}
