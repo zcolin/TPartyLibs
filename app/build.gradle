@@ -118,7 +118,7 @@ dependencies {
     compile 'com.android.support:recyclerview-v7:24.2.1'
     compile 'com.github.zcolin:ZUILib:latest.release'
     //UI库
-    compile 'com.github.zcolin:ZFrame:1.2.5'
+    compile 'com.github.zcolin:ZFrame:1.3.9'
     //程序框架
     //    facebook调试工具 使用chrome查看，可以进行数据库和http报文查看
     //    compile 'com.facebook.stetho:stetho:1.4.2'

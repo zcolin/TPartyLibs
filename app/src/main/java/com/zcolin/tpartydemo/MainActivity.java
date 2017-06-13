@@ -21,9 +21,11 @@ import com.amap.api.location.AMapLocation;
 import com.baidu.location.BDLocation;
 import com.tyr.libbaidumaplocation.BaiduMapLocationUtil;
 import com.zcolin.frame.app.BaseFrameActivity;
+import com.zcolin.frame.app.FramePathConst;
 import com.zcolin.frame.permission.PermissionHelper;
 import com.zcolin.frame.permission.PermissionsResultAction;
-import com.zcolin.frame.utils.ToastUtil;
+import com.zcolin.frame.util.FileUtil;
+import com.zcolin.frame.util.ToastUtil;
 import com.zcolin.gui.ZAlert;
 import com.zcolin.gui.ZConfirm;
 import com.zcolin.gui.ZDialog;
@@ -54,6 +56,7 @@ public class MainActivity extends BaseFrameActivity implements View.OnClickListe
         listButton.add(addButton("高德地图定位"));
         listButton.add(addButton("百度地图定位"));
         listButton.add(addButton("分享"));
+        listButton.add(addButton("分享图片"));
 
         for (Button btn : listButton) {
             btn.setOnClickListener(this);
@@ -179,6 +182,24 @@ public class MainActivity extends BaseFrameActivity implements View.OnClickListe
                        .setTargetUrl("http://www.baidu.com")
                        .setImgUrl("http://pic6.huitu.com/res/20130116/84481_20130116142820494200_1.jpg")
                        .share(mActivity);
+        } else if (v == listButton.get(3)) {
+            PermissionHelper.requestReadWriteSdCardPermission(mActivity, new PermissionsResultAction() {
+                @Override
+                public void onGranted() {
+                    String targetPath = FramePathConst.getInstance()
+                                                      .getPathImgCache() + "shar_ic.png";
+                    FileUtil.copyFileFromAssets(mActivity, "ic_launcher.png", targetPath);
+                    ShareSocial.instance()
+                               .setImgPath(targetPath)
+                               .share(mActivity);
+                }
+
+                @Override
+                public void onDenied(String permission) {
+
+                }
+            });
+
         }
     }
 

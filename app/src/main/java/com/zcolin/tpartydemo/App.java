@@ -9,7 +9,7 @@
 
 package com.zcolin.tpartydemo;
 
-import android.app.Application;
+import com.zcolin.frame.app.BaseApp;
 
 import cn.sharesdk.sina.weibo.SinaWeibo;
 import cn.sharesdk.tencent.weibo.TencentWeibo;
@@ -20,7 +20,7 @@ import cn.sharesdk.wechat.favorite.WechatFavorite;
  *
  */
 
-public class App extends Application {
+public class App extends BaseApp {
     @Override
     public void onCreate() {
         super.onCreate();
