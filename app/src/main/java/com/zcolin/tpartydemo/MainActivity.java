@@ -173,11 +173,12 @@ public class MainActivity extends BaseFrameActivity implements View.OnClickListe
         } else if (v == listButton.get(1)) {
             baiduMaplocation();
         } else if (v == listButton.get(2)) {
-            new ShareSocial(mActivity).setTitle("分享")
-                                      .setContent("分享内容")
-                                      .setTargetUrl("http://www.baidu.com")
-                                      .setImgUrl("http://pic6.huitu.com/res/20130116/84481_20130116142820494200_1.jpg")
-                                      .share();
+            ShareSocial.instance()
+                       .setTitle("分享")
+                       .setContent("分享内容")
+                       .setTargetUrl("http://www.baidu.com")
+                       .setImgUrl("http://pic6.huitu.com/res/20130116/84481_20130116142820494200_1.jpg")
+                       .share(mActivity);
         }
     }
 

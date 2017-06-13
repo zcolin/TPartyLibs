@@ -10,29 +10,71 @@
 package cn.sharesdk.util;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.util.SparseArray;
+import android.view.View;
+
+import java.util.ArrayList;
 
 import cn.sharesdk.onekeyshare.OnekeyShare;
 import cn.sharesdk.onekeyshare.OnekeyShareTheme;
 import cn.sharesdk.sina.weibo.SinaWeibo;
+import cn.sharesdk.tencent.qq.QQ;
+import cn.sharesdk.tencent.qzone.QZone;
 import cn.sharesdk.tencent.weibo.TencentWeibo;
+import cn.sharesdk.wechat.favorite.WechatFavorite;
+import cn.sharesdk.wechat.friends.Wechat;
+import cn.sharesdk.wechat.moments.WechatMoments;
 
 /**
  * 社会化分享工具类
  */
 public class ShareSocial {
+    private static final String[] ALLPLATFORMS = {Wechat.NAME, WechatMoments.NAME,
+            WechatFavorite.NAME, QQ.NAME, QZone.NAME, TencentWeibo.NAME, SinaWeibo.NAME};
+    private static ArrayList<CustomerLogo> customerLogos;
 
-    private String platform;
+    private static String[] HIDDENPLATFORMS;
+    private        String   platform;
     private boolean isShowContentEdit = true;
-    private String  title;
-    private String  content;
-    private String  targetUrl;
-    private String  imgUrl;
-    private String  comment;
-    private String  imgPath;
-    private Context context;
+    private String              title;
+    private String              content;
+    private String              targetUrl;
+    private String              imgUrl;
+    private String              comment;
+    private String              imgPath;
+    private SparseArray<String> showPlatForms;
 
-    public ShareSocial(Context context) {
-        this.context = context;
+
+    private ShareSocial() {
+    }
+
+    /**
+     * 全局设置需要隐藏的平台，可以在Application中调用
+     *
+     * @param hiddenPlatformName 需要隐藏的平台名称 ex: {@link cn.sharesdk.sina.weibo.SinaWeibo#NAME}
+     */
+    public static void setHiddenPlatForms(String... hiddenPlatformName) {
+        HIDDENPLATFORMS = hiddenPlatformName;
+    }
+
+    public static void addCustomerLogo(Bitmap logo, String label, View.OnClickListener onClickListener) {
+        if (customerLogos == null) {
+            customerLogos = new ArrayList<>();
+        }
+
+        CustomerLogo customerLogo = new CustomerLogo();
+        customerLogo.bitmap = logo;
+        customerLogo.label = label;
+        customerLogo.onClickListener = onClickListener;
+        customerLogos.add(customerLogo);
+    }
+
+    /**
+     * 产生实例
+     */
+    public static ShareSocial instance() {
+        return new ShareSocial();
     }
 
     /**
@@ -99,11 +141,24 @@ public class ShareSocial {
         return this;
     }
 
+    /**
+     * 设置定向显示的平台，如不设置，默认为除去全局隐藏的全部平台
+     */
+    public ShareSocial setShowPlatform(String... showPlatForms) {
+        if (showPlatForms != null && showPlatForms.length > 0) {
+            this.showPlatForms = new SparseArray<>();
+            for (int i = 0; i < showPlatForms.length; i++) {
+                this.showPlatForms.put(i, showPlatForms[i]);
+            }
+        }
+        return this;
+    }
+
 
     /**
      * 调用执行分享
      */
-    public void share() {
+    public void share(Context context) {
         OnekeyShare oks = new OnekeyShare();
         oks.setSilent(!isShowContentEdit);
         if (platform != null) {
@@ -112,8 +167,6 @@ public class ShareSocial {
 
         //ShareSDK快捷分享提供两个界面第一个是九宫格 CLASSIC  第二个是SKYBLUE
         oks.setTheme(OnekeyShareTheme.CLASSIC);
-        // 令编辑页面显示为Dialog模式
-        oks.setDialogMode();
         // 在自动授权时可以禁用SSO方式
         oks.disableSSOWhenAuthorize();
         //oks.setAddress("12345678901"); //分享短信的号码和邮件的地址
@@ -133,14 +186,13 @@ public class ShareSocial {
             oks.setText(content);
         }
 
-        // imagePath是图片的本地路径，Linked-In以外的平台都支持此参数
-        //oks.setImagePath("/sdcard/test-pic.jpg"); 
-
         //分享网络图片，新浪微博分享网络图片需要通过审核后申请高级写入接口，否则请注释掉测试新浪微博
         if (imgUrl != null) {
             oks.setImageUrl(imgUrl);
         }
 
+        // imagePath是图片的本地路径，Linked-In以外的平台都支持此参数
+        //oks.setImagePath("/sdcard/test-pic.jpg"); 
         if (imgPath != null) {
             oks.setImagePath(imgPath);
         }
@@ -150,9 +202,6 @@ public class ShareSocial {
             oks.setUrl(targetUrl);
         }
 
-        //filePath是待分享应用程序的本地路劲，仅在微信（易信）好友和Dropbox中使用，否则可以不提供
-        //oks.setFilePath("/sdcard/test-pic.jpg");  
-
         //我对这条分享的评论，仅在人人网和QQ空间使用，否则可以不提供
         if (comment != null) {
             oks.setComment(comment);
@@ -161,7 +210,6 @@ public class ShareSocial {
         // site是分享此内容的网站名称，仅在QQ空间使用
         //oks.setSite(context.getResources()
         //                           .getString(R.string.app_name));
-
         // siteUrl是分享此内容的网站地址，仅在QQ空间使用
         if (targetUrl != null) {
             oks.setSiteUrl(targetUrl);
@@ -172,22 +220,31 @@ public class ShareSocial {
         //oks.setCallback(new OneKeyShareCallback());
         // 去自定义不同平台的字段内容
         //oks.setShareContentCustomizeCallback(new ShareContentCustomizeDemo());
+        
         // 在九宫格设置自定义的图标
-        //        Bitmap logo = BitmapFactory.decodeResource(context.getResources(), R.drawable.ic_launcher);
-        //        String label = context.getResources()
-        //                              .getString(R.string.app_name);
-        //        View.OnClickListener listener = new View.OnClickListener() {
-        //            public void onClick(View v) {
-        //
-        //            }
-        //        };
-        //        oks.setCustomerLogo(logo, label, listener);
+        if (customerLogos != null && customerLogos.size() >0 ) {
+            for (CustomerLogo customerLogo : customerLogos) {
+                Bitmap logo = customerLogo.bitmap;
+                String label = customerLogo.label;
+                View.OnClickListener listener = customerLogo.onClickListener;
+                oks.setCustomerLogo(logo, label, listener);
+            }
+        }
 
         // 为EditPage设置一个背景的View
         //oks.setEditPageBackground(getPage());
-        //  隐藏九宫格中的新浪微博
-        oks.addHiddenPlatform(SinaWeibo.NAME);
-        oks.addHiddenPlatform(TencentWeibo.NAME);
+        //  隐藏九宫格中平台
+        if (showPlatForms != null && showPlatForms.size() > 0) {
+            for (String platForm : ALLPLATFORMS) {
+                if (showPlatForms.indexOfValue(platForm) < 0) {
+                    oks.addHiddenPlatform(platForm);
+                }
+            }
+        } else if (HIDDENPLATFORMS != null && HIDDENPLATFORMS.length > 0) {
+            for (String s : HIDDENPLATFORMS) {
+                oks.addHiddenPlatform(s);
+            }
+        }
 
         // String[] AVATARS = {
         // 		"http://99touxiang.com/public/upload/nvsheng/125/27-011820_433.jpg",
@@ -200,5 +257,12 @@ public class ShareSocial {
 
         // 启动分享
         oks.show(context);
+    }
+
+
+    private static class CustomerLogo {
+        private Bitmap               bitmap;
+        private String               label;
+        private View.OnClickListener onClickListener;
     }
 }
