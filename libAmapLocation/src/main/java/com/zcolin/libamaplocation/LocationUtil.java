@@ -66,19 +66,25 @@ public class LocationUtil implements AMapLocationListener, Runnable {
     public void onLocationChanged(AMapLocation location) {
         if (location != null) {
             this.aMapLocation = location;// 判断超时机制
-            if (onGetLocation != null) {
-                if (location.getLatitude() == 0 && location.getLongitude() == 0) {
+            if (location.getLatitude() == 0 && location.getLongitude() == 0) {
+                if (onGetLocation != null) {
                     onGetLocation.locationFail();
-                    LOCATION = null;
-                } else {
-                    onGetLocation.getLocation(location);
-                    LOCATION = location;
-                    LAST_LOCATION_TIME = SystemClock.elapsedRealtime();
                 }
+                LOCATION = null;
+            } else {
+                if (onGetLocation != null) {
+                    onGetLocation.getLocation(location);
+                }
+                LOCATION = location;
+                LAST_LOCATION_TIME = SystemClock.elapsedRealtime();
             }
 
             //得到地址后停止定位
             stop();
+        } else {
+            if (onGetLocation != null) {
+                onGetLocation.locationFail();
+            }
         }
     }
 

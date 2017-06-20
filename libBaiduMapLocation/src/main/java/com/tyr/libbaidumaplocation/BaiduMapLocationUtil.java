@@ -2,6 +2,7 @@ package com.tyr.libbaidumaplocation;
 
 import android.content.Context;
 import android.os.Handler;
+import android.os.SystemClock;
 
 import com.baidu.location.BDLocation;
 import com.baidu.location.BDLocationListener;
@@ -12,6 +13,13 @@ public class BaiduMapLocationUtil implements Runnable, BDLocationListener {
 
     public static final int FAILURE_DELAYTIME = 12000; // 定位超时时间
     public static BDLocation LOCATION;                 // 获取到的定位位置
+    /**
+     * 定位缓存时间  15秒
+     */
+    public static final int LOCATION_CACHE_TIME = 15000;
+
+    /*上次定位时间，默认如果上次定位时间小于15秒，不再定位防止频繁定位*/
+    private static long LAST_LOCATION_TIME;
 
     private Context              context;
     private LocationClient       mLocationClient;
@@ -36,7 +44,23 @@ public class BaiduMapLocationUtil implements Runnable, BDLocationListener {
         startLocation();
     }
 
-    public void startLocation() {
+    /**
+     * 开始定位（如果在LOCATION_CACHE_TIME之内，则获取缓存定位数据，否则进行定位）
+     *
+     * @param onGetLocation 定位完成回调接口
+     */
+    public void startOrGetCacheLocation(OnGetLocation onGetLocation) {
+        this.onGetLocation = onGetLocation;
+        if (LOCATION != null && LAST_LOCATION_TIME > 0 && SystemClock.elapsedRealtime() - LAST_LOCATION_TIME < LOCATION_CACHE_TIME) {
+            if (onGetLocation != null) {
+                onGetLocation.getLocation(LOCATION);
+            }
+        } else {
+            startLocation();
+        }
+    }
+
+    private void startLocation() {
         if (mLocationOption == null) {
             mLocationOption = new LocationClientOption();
             mLocationOption.setOpenGps(true);             // 是否打开GPS
@@ -44,6 +68,7 @@ public class BaiduMapLocationUtil implements Runnable, BDLocationListener {
             mLocationOption.setScanSpan(5000);            // 设置定时定位的时间间隔（单位毫秒）
             mLocationOption.setIsNeedAddress(true);       // 可选，设置是否需要地址信息（默认不需要）
             mLocationOption.setIgnoreKillProcess(false);  // 可选，定位SDK内部是一个SERVICE，并放到了独立进程，设置是否在stop的时候杀死这个进程（默认不杀死true）
+            mLocationOption.setIsNeedLocationDescribe(true);
         }
         mLocationClient = new LocationClient(context);
         mLocationClient.setLocOption(mLocationOption);
@@ -62,22 +87,25 @@ public class BaiduMapLocationUtil implements Runnable, BDLocationListener {
 
     @Override
     public void onReceiveLocation(BDLocation location) {
-        if (location == null) {
-            return;
-        }
-
         if (location != null) {
             this.mLocation = location;// 判断超时机制
-            if (onGetLocation != null) {
-                if (location.getLatitude() == 0 && location.getLongitude() == 0) {
+            if (location.getLatitude() == 0 && location.getLongitude() == 0) {
+                if (onGetLocation != null) {
                     onGetLocation.locationFail();
-                    LOCATION = null;
-                } else {
-                    onGetLocation.getLocation(location);
-                    LOCATION = location;
                 }
+                LOCATION = null;
+            } else {
+                if (onGetLocation != null) {
+                    onGetLocation.getLocation(location);
+                }
+                LOCATION = location;
+                LAST_LOCATION_TIME = SystemClock.elapsedRealtime();
             }
             stop();
+        } else {
+            if (onGetLocation != null) {
+                onGetLocation.locationFail();
+            }
         }
     }
 

@@ -74,7 +74,7 @@ public class MainActivity extends BaseFrameActivity implements View.OnClickListe
     }
 
     private void amapLocation() {
-        PermissionHelper.requestPermission(mActivity, new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.WRITE_EXTERNAL_STORAGE}, new PermissionsResultAction() {
+        PermissionHelper.requestLocationPermission(mActivity, new PermissionsResultAction() {
             @Override
             public void onGranted() {
 

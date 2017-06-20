@@ -7,11 +7,6 @@
 -keep class **.R{*;}
 -keep class com.mob.**{*;}
 
-#Mob Share SDK 
--dontwarn com.mob.**
--dontwarn cn.sharesdk.**
--dontwarn **.R$*
-
 #Gson
 -keep class com.test.model.response.** {*;}
 -keepattributes Signature 
