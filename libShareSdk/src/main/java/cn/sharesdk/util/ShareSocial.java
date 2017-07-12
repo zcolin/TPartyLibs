@@ -30,20 +30,19 @@ import cn.sharesdk.wechat.moments.WechatMoments;
  * 社会化分享工具类
  */
 public class ShareSocial {
-    private static final String[] ALLPLATFORMS = {Wechat.NAME, WechatMoments.NAME,
-            WechatFavorite.NAME, QQ.NAME, QZone.NAME, TencentWeibo.NAME, SinaWeibo.NAME};
-    private static ArrayList<CustomerLogo> customerLogos;
-
+    private static final String[] ALLPLATFORMS = {Wechat.NAME, WechatMoments.NAME, WechatFavorite.NAME, QQ.NAME, QZone.NAME, TencentWeibo.NAME, SinaWeibo.NAME};
     private static String[] HIDDENPLATFORMS;
-    private        String   platform;
+
+    private String platform;
     private boolean isShowContentEdit = true;
-    private String              title;
-    private String              content;
-    private String              targetUrl;
-    private String              imgUrl;
-    private String              comment;
-    private String              imgPath;
-    private SparseArray<String> showPlatForms;
+    private String                  title;
+    private String                  content;
+    private String                  targetUrl;
+    private String                  imgUrl;
+    private String                  comment;
+    private String                  imgPath;
+    private SparseArray<String>     showPlatForms;
+    private ArrayList<CustomerLogo> customerLogos;
 
 
     private ShareSocial() {
@@ -58,7 +57,17 @@ public class ShareSocial {
         HIDDENPLATFORMS = hiddenPlatformName;
     }
 
-    public static void addCustomerLogo(Bitmap logo, String label, View.OnClickListener onClickListener) {
+    /**
+     * 产生实例
+     */
+    public static ShareSocial instance() {
+        return new ShareSocial();
+    }
+
+    /**
+     * 添加自定义的View
+     */
+    public ShareSocial addCustomerLogo(Bitmap logo, String label, View.OnClickListener onClickListener) {
         if (customerLogos == null) {
             customerLogos = new ArrayList<>();
         }
@@ -68,13 +77,7 @@ public class ShareSocial {
         customerLogo.label = label;
         customerLogo.onClickListener = onClickListener;
         customerLogos.add(customerLogo);
-    }
-
-    /**
-     * 产生实例
-     */
-    public static ShareSocial instance() {
-        return new ShareSocial();
+        return this;
     }
 
     /**
@@ -220,9 +223,9 @@ public class ShareSocial {
         //oks.setCallback(new OneKeyShareCallback());
         // 去自定义不同平台的字段内容
         //oks.setShareContentCustomizeCallback(new ShareContentCustomizeDemo());
-        
+
         // 在九宫格设置自定义的图标
-        if (customerLogos != null && customerLogos.size() >0 ) {
+        if (customerLogos != null && customerLogos.size() > 0) {
             for (CustomerLogo customerLogo : customerLogos) {
                 Bitmap logo = customerLogo.bitmap;
                 String label = customerLogo.label;
