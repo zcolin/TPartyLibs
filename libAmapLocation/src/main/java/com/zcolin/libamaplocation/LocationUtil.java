@@ -61,6 +61,10 @@ public class LocationUtil implements AMapLocationListener, Runnable {
     public LocationUtil(Context context) {
         this.context = context;
     }
+    
+    public void setDefaultOption(AMapLocationClientOption locationOption){
+        mLocationOption = locationOption;
+    }
 
     @Override
     public void onLocationChanged(AMapLocation location) {

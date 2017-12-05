@@ -34,6 +34,10 @@ public class BaiduMapLocationUtil implements Runnable, BDLocationListener {
         this.context = context;
     }
 
+    public void setDefaultOption(LocationClientOption ocationOption) {
+        this.mLocationOption = ocationOption;
+    }
+
     /**
      * 开始定位
      *
@@ -89,7 +93,7 @@ public class BaiduMapLocationUtil implements Runnable, BDLocationListener {
     public void onReceiveLocation(BDLocation location) {
         if (location != null) {
             this.mLocation = location;// 判断超时机制
-            if (location.getLatitude() == 0 && location.getLongitude() == 0) {
+            if ((location.getLatitude() == 0 && location.getLongitude() == 0) || location.getLatitude() == 4.9E-324) {
                 if (onGetLocation != null) {
                     onGetLocation.locationFail();
                 }
