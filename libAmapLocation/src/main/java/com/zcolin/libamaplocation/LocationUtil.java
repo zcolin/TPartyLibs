@@ -36,7 +36,7 @@ public class LocationUtil implements AMapLocationListener, Runnable {
     /**
      * 定位超时时间
      */
-    public static final int FAILURE_DELAYTIME = 12000;
+    public static int FAILURE_DELAYTIME = 12000;
 
     /**
      * 获取到的定位位置
@@ -46,7 +46,7 @@ public class LocationUtil implements AMapLocationListener, Runnable {
     /**
      * 定位缓存时间  15秒
      */
-    public static final int LOCATION_CACHE_TIME = 15000;
+    public static int LOCATION_CACHE_TIME = 15000;
 
     /*上次定位时间，默认如果上次定位时间小于15秒，不再定位防止频繁定位*/
     private static long LAST_LOCATION_TIME;
@@ -61,8 +61,8 @@ public class LocationUtil implements AMapLocationListener, Runnable {
     public LocationUtil(Context context) {
         this.context = context;
     }
-    
-    public void setDefaultOption(AMapLocationClientOption locationOption){
+
+    public void setDefaultOption(AMapLocationClientOption locationOption) {
         mLocationOption = locationOption;
     }
 

@@ -11,12 +11,12 @@ import com.baidu.location.LocationClientOption;
 
 public class BaiduMapLocationUtil implements Runnable, BDLocationListener {
 
-    public static final int FAILURE_DELAYTIME = 12000; // 定位超时时间
+    public static int FAILURE_DELAYTIME = 12000; // 定位超时时间
     public static BDLocation LOCATION;                 // 获取到的定位位置
     /**
      * 定位缓存时间  15秒
      */
-    public static final int LOCATION_CACHE_TIME = 15000;
+    public static int LOCATION_CACHE_TIME = 15000;
 
     /*上次定位时间，默认如果上次定位时间小于15秒，不再定位防止频繁定位*/
     private static long LAST_LOCATION_TIME;
