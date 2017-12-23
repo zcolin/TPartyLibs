@@ -18,7 +18,6 @@ package com.zcolin.libamaplocation;
 
 import android.content.Context;
 import android.os.Handler;
-import android.os.Message;
 import android.os.SystemClock;
 
 import com.amap.api.location.AMapLocation;
@@ -33,11 +32,11 @@ import com.amap.api.maps.model.LatLng;
  * 定位工具类
  */
 public class LocationUtil implements AMapLocationListener, Runnable {
-    private static final int MSG_LOCATION_CHANGED = 1;
+
     /**
      * 定位超时时间
      */
-    public static        int FAILURE_DELAYTIME    = 12000;
+    public static int FAILURE_DELAYTIME = 12000;
 
     /**
      * 获取到的定位位置
@@ -55,7 +54,7 @@ public class LocationUtil implements AMapLocationListener, Runnable {
     public AMapLocationClient       mLocationClient = null;
     public AMapLocationClientOption mLocationOption = null;
     private AMapLocation aMapLocation;                            // 用于判断定位超时
-    private Handler handler = new MHandler();
+    private Handler handler = new Handler();
     private OnGetLocation onGetLocation;
     private Context       context;
 
@@ -69,27 +68,6 @@ public class LocationUtil implements AMapLocationListener, Runnable {
 
     @Override
     public void onLocationChanged(AMapLocation location) {
-        Message msg = handler.obtainMessage();
-        msg.what = MSG_LOCATION_CHANGED;
-        msg.obj = location;
-        handler.sendMessage(msg);
-    }
-
-    @Override
-    public void run() {
-        if (aMapLocation == null) {
-            //12秒内还没有定位成功，停止定位
-            stopLocation();// 销毁掉定位
-            if (onGetLocation != null) {
-                onGetLocation.locationFail();
-            }
-        }
-    }
-
-    /**
-     * 获取位置后在主线程回调此方法
-     */
-    private void locationChanged(AMapLocation location) {
         if (location != null) {
             this.aMapLocation = location;// 判断超时机制
             if (location.getLatitude() == 0 && location.getLongitude() == 0) {
@@ -108,6 +86,17 @@ public class LocationUtil implements AMapLocationListener, Runnable {
             //得到地址后停止定位
             stop();
         } else {
+            if (onGetLocation != null) {
+                onGetLocation.locationFail();
+            }
+        }
+    }
+
+    @Override
+    public void run() {
+        if (aMapLocation == null) {
+            //12秒内还没有定位成功，停止定位
+            stopLocation();// 销毁掉定位
             if (onGetLocation != null) {
                 onGetLocation.locationFail();
             }
@@ -218,16 +207,6 @@ public class LocationUtil implements AMapLocationListener, Runnable {
         LatLng shoplocation = new LatLng(lat1, long1);
         float m = AMapUtils.calculateLineDistance(shoplocation, new LatLng(lat2, long2));
         return String.format("%." + precision + "f", m / t);
-    }
-
-    class MHandler extends Handler {
-        @Override
-        public void handleMessage(Message msg) {
-            super.handleMessage(msg);
-            if (msg.what == MSG_LOCATION_CHANGED) {
-                locationChanged((AMapLocation) msg.obj);
-            }
-        }
     }
 
     /**

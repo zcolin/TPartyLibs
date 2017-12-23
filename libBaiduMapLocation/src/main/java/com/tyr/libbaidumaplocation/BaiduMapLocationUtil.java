@@ -2,6 +2,7 @@ package com.tyr.libbaidumaplocation;
 
 import android.content.Context;
 import android.os.Handler;
+import android.os.Message;
 import android.os.SystemClock;
 
 import com.baidu.location.BDLocation;
@@ -10,8 +11,8 @@ import com.baidu.location.LocationClient;
 import com.baidu.location.LocationClientOption;
 
 public class BaiduMapLocationUtil implements Runnable, BDLocationListener {
-
-    public static int FAILURE_DELAYTIME = 12000; // 定位超时时间
+    private static final int MSG_LOCATION_CHANGED = 1;
+    public static        int FAILURE_DELAYTIME    = 12000; // 定位超时时间
     public static BDLocation LOCATION;                 // 获取到的定位位置
     /**
      * 定位缓存时间  15秒
@@ -25,7 +26,7 @@ public class BaiduMapLocationUtil implements Runnable, BDLocationListener {
     private LocationClient       mLocationClient;
     private LocationClientOption mLocationOption;
 
-    private Handler handler = new Handler();
+    private Handler handler = new MHandler();
     private BDLocation    mLocation;
     private OnGetLocation onGetLocation;
 
@@ -91,6 +92,13 @@ public class BaiduMapLocationUtil implements Runnable, BDLocationListener {
 
     @Override
     public void onReceiveLocation(BDLocation location) {
+        Message msg = handler.obtainMessage();
+        msg.what = MSG_LOCATION_CHANGED;
+        msg.obj = location;
+        handler.sendMessage(msg);
+    }
+
+    private void locationChanged(BDLocation location) {
         if (location != null) {
             this.mLocation = location;// 判断超时机制
             if ((location.getLatitude() == 0 && location.getLongitude() == 0) || location.getLatitude() == 4.9E-324) {
@@ -144,6 +152,17 @@ public class BaiduMapLocationUtil implements Runnable, BDLocationListener {
             mLocationClient.stop();
         }
         mLocationClient = null;
+    }
+
+
+    class MHandler extends Handler {
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            if (msg.what == MSG_LOCATION_CHANGED) {
+                locationChanged((BDLocation) msg.obj);
+            }
+        }
     }
 
     /**
