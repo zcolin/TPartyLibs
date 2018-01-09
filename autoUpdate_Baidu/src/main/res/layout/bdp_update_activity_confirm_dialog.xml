@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:orientation="vertical"
-    android:background="@null" >
-    
-    <TextView 
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:orientation="vertical"
+              android:background="@null">
+
+    <TextView
         android:id="@+id/txt_title"
         android:layout_width="match_parent"
         android:layout_height="40dip"
@@ -15,8 +15,8 @@
         android:textSize="16sp"
         android:background="@drawable/bdp_update_bg_dialog_title"
         />
-    
-    <LinearLayout 
+
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingLeft="18dip"
@@ -25,8 +25,8 @@
         android:paddingBottom="14dip"
         android:background="@drawable/bdp_update_bg_dialog_content"
         android:orientation="vertical">
-        
-        <TextView 
+
+        <TextView
             android:id="@+id/txt_main_tip"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -36,26 +36,26 @@
             android:textColor="#ff58b6ff"
             android:textSize="14sp"
             />
-        
-        <ScrollView 
-	        android:layout_width="match_parent"
-	        android:layout_height="64dip"
-	        android:layout_marginBottom="10dip"
-	        android:fadingEdge="vertical"
-	        android:fadingEdgeLength="20dip"
-	        android:requiresFadingEdge="vertical"
-	        >
-	        
-	        <TextView 
-	            android:id="@+id/txt_minor_tip"
-	            android:layout_width="match_parent"
-	            android:layout_height="wrap_content"
-	            android:textColor="#ff333333"
-	            android:textSize="13sp"
-	            />
-	    </ScrollView>
-	    
-        <Button 
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="64dip"
+            android:layout_marginBottom="10dip"
+            android:fadingEdge="vertical"
+            android:fadingEdgeLength="20dip"
+            android:requiresFadingEdge="vertical"
+            >
+
+            <TextView
+                android:id="@+id/txt_minor_tip"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="#ff333333"
+                android:textSize="13sp"
+                />
+        </ScrollView>
+
+        <Button
             android:id="@+id/btn_action_1"
             android:layout_width="match_parent"
             android:layout_height="40dip"
@@ -64,16 +64,16 @@
             android:textSize="14sp"
             android:background="@drawable/bdp_update_bg_dialog_btn"
             />
-        
-        <LinearLayout 
+
+        <LinearLayout
             android:id="@+id/lin_other_btns"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:weightSum="2"
             android:gravity="center"
             android:orientation="horizontal">
-            
-            <TextView 
+
+            <TextView
                 android:id="@+id/txt_action_2"
                 android:layout_width="0dip"
                 android:layout_height="wrap_content"
@@ -83,8 +83,8 @@
                 android:gravity="center"
                 android:text="@string/bdp_update_not_now"
                 />
-            
-            <TextView 
+
+            <TextView
                 android:id="@+id/txt_action_3"
                 android:layout_width="0dip"
                 android:layout_height="wrap_content"

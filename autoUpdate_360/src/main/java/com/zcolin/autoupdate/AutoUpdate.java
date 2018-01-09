@@ -1,9 +1,9 @@
 /*
  * *********************************************************
  *   author   colin
- *   company  fosung
+ *   company  telchina
  *   email    wanglin2046@126.com
- *   date     17-4-7 下午3:13
+ *   date     18-1-9 上午10:26
  * ********************************************************
  */
 
@@ -29,13 +29,11 @@ public class AutoUpdate {
         if (!isInit) {
             UpdateHelper.getInstance()
                         .init(context, context.getResources()
-                                              .getColor(context.getResources()
-                                                               .getIdentifier("colorPrimary", "color", context.getPackageName())));
+                                              .getColor(context.getResources().getIdentifier("colorPrimary", "color", context.getPackageName())));
             isInit = true;
         }
 
-        UpdateHelper.getInstance()
-                    .autoUpdate(context.getPackageName());
+        UpdateHelper.getInstance().autoUpdate(context.getPackageName());
         if (callback != null) {
             callback.onCheckComplete(null);
         }
@@ -50,13 +48,11 @@ public class AutoUpdate {
         if (!isInit) {
             UpdateHelper.getInstance()
                         .init(context, context.getResources()
-                                              .getColor(context.getResources()
-                                                               .getIdentifier("colorPrimary", "color", context.getPackageName())));
+                                              .getColor(context.getResources().getIdentifier("colorPrimary", "color", context.getPackageName())));
             isInit = true;
         }
 
-        UpdateHelper.getInstance()
-                    .manualUpdate(context.getPackageName());
+        UpdateHelper.getInstance().manualUpdate(context.getPackageName());
         if (callback != null) {
             callback.onCheckComplete(null);
         }

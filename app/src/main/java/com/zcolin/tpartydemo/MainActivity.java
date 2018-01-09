@@ -1,9 +1,9 @@
 /*
  * *********************************************************
  *   author   colin
- *   company  fosung
+ *   company  telchina
  *   email    wanglin2046@126.com
- *   date     17-4-7 上午11:56
+ *   date     18-1-9 上午10:26
  * ********************************************************
  */
 
@@ -28,7 +28,6 @@ import com.zcolin.frame.util.FileUtil;
 import com.zcolin.frame.util.ToastUtil;
 import com.zcolin.gui.ZAlert;
 import com.zcolin.gui.ZConfirm;
-import com.zcolin.gui.ZDialog;
 import com.zcolin.libamaplocation.LocationUtil;
 
 import java.util.ArrayList;
@@ -52,7 +51,7 @@ public class MainActivity extends BaseFrameActivity implements View.OnClickListe
 
 
     private void init() {
-        llContent = (LinearLayout) findViewById(R.id.ll_content);
+        llContent = findViewById(R.id.ll_content);
         listButton.add(addButton("高德地图定位"));
         listButton.add(addButton("百度地图定位"));
         listButton.add(addButton("分享"));
@@ -91,28 +90,17 @@ public class MainActivity extends BaseFrameActivity implements View.OnClickListe
                             desc = locBundle.getString("desc");
                         }
 
-                        new ZAlert(mActivity).setMessage(locBundle == null ? location.getCity() + location.getDistrict() : desc)
-                                             .show();
+                        new ZAlert(mActivity).setMessage(locBundle == null ? location.getCity() + location.getDistrict() : desc).show();
                     }
 
                     @Override
                     public void locationFail() {
                         ZConfirm dlg = new ZConfirm(mActivity);
-                        dlg.setTitle("定位失败, 是否尝试再次定位？")
-                           .addSubmitListener(new ZDialog.ZDialogSubmitInterface() {
-
-                               @Override
-                               public boolean submit() {
-                                   amapLocation();
-                                   return true;
-                               }
-                           });
-                        dlg.addCancelListener(new ZDialog.ZDialogCancelInterface() {
-                            @Override
-                            public boolean cancel() {
-                                return true;
-                            }
+                        dlg.setTitle("定位失败, 是否尝试再次定位？").addSubmitListener(() -> {
+                            amapLocation();
+                            return true;
                         });
+                        dlg.addCancelListener(() -> true);
                         dlg.show();
                     }
                 });
@@ -126,7 +114,8 @@ public class MainActivity extends BaseFrameActivity implements View.OnClickListe
     }
 
     private void baiduMaplocation() {
-        PermissionHelper.requestPermission(mActivity, new String[]{Manifest.permission.READ_PHONE_STATE, Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.WRITE_EXTERNAL_STORAGE}, new PermissionsResultAction() {
+        PermissionHelper.requestPermission(mActivity, new String[]{Manifest.permission.READ_PHONE_STATE, Manifest.permission.ACCESS_FINE_LOCATION, Manifest
+                .permission.WRITE_EXTERNAL_STORAGE}, new PermissionsResultAction() {
             @Override
             public void onGranted() {
                 final BaiduMapLocationUtil location = new BaiduMapLocationUtil(mActivity);
@@ -134,29 +123,18 @@ public class MainActivity extends BaseFrameActivity implements View.OnClickListe
                     @Override
                     public void getLocation(BDLocation location) {
                         if (location != null) {
-                            new ZAlert(mActivity).setMessage(location.getAddrStr())
-                                                 .show();
+                            new ZAlert(mActivity).setMessage(location.getAddrStr()).show();
                         }
                     }
 
                     @Override
                     public void locationFail() {
                         ZConfirm dlg = new ZConfirm(mActivity);
-                        dlg.setTitle("定位失败, 是否尝试再次定位？")
-                           .addSubmitListener(new ZDialog.ZDialogSubmitInterface() {
-
-                               @Override
-                               public boolean submit() {
-                                   baiduMaplocation();
-                                   return true;
-                               }
-                           });
-                        dlg.addCancelListener(new ZDialog.ZDialogCancelInterface() {
-                            @Override
-                            public boolean cancel() {
-                                return true;
-                            }
+                        dlg.setTitle("定位失败, 是否尝试再次定位？").addSubmitListener(() -> {
+                            baiduMaplocation();
+                            return true;
                         });
+                        dlg.addCancelListener(() -> true);
                         dlg.show();
                     }
                 });
@@ -186,12 +164,9 @@ public class MainActivity extends BaseFrameActivity implements View.OnClickListe
             PermissionHelper.requestReadWriteSdCardPermission(mActivity, new PermissionsResultAction() {
                 @Override
                 public void onGranted() {
-                    String targetPath = FramePathConst.getInstance()
-                                                      .getPathImgCache() + "shar_ic.png";
+                    String targetPath = FramePathConst.getInstance().getPathImgCache() + "shar_ic.png";
                     FileUtil.copyFileFromAssets(mActivity, "ic_launcher.png", targetPath);
-                    ShareSocial.instance()
-                               .setImgPath(targetPath)
-                               .share(mActivity);
+                    ShareSocial.instance().setImgPath(targetPath).share(mActivity);
                 }
 
                 @Override

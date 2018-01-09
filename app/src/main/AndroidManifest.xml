@@ -69,9 +69,13 @@
             android:value="s4bbFGqQTwZtiXjsGS9DrcUDGkaGBnkx"/>
 
 
-        <meta-data android:name="Mob-AppKey" android:value="175706aa50cc5"/>
-        <meta-data android:name="Mob-AppSecret" android:value="cf8b53941a77a13f7f3bd831af23bb5c"/>
-        
+        <meta-data
+            android:name="Mob-AppKey"
+            android:value="175706aa50cc5"/>
+        <meta-data
+            android:name="Mob-AppSecret"
+            android:value="cf8b53941a77a13f7f3bd831af23bb5c"/>
+
     </application>
 
 </manifest>
