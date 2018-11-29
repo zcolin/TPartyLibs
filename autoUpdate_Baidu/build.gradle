@@ -28,9 +28,8 @@ android {
 }
 
 dependencies {
-    compile fileTree(include: ['*.jar'], dir: 'libs')
-    testCompile 'junit:junit:4.12'
-    compile "com.android.support:appcompat-v7:$supprotVersion"
-    compile files('libs/BDAutoUpdateSDK_20150605_V1.2.0.jar')
-    compile files('libs/need_lib.jar')
+    api fileTree(include: ['*.jar'], dir: 'libs')
+    api files('libs/BDAutoUpdateSDK_20150605_V1.2.0.jar')
+    api files('libs/need_lib.jar')
+    compileOnly "com.android.support:appcompat-v7:$supprotVersion"
 }
