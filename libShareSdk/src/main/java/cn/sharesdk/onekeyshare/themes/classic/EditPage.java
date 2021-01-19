@@ -88,6 +88,7 @@ public class EditPage extends OnekeySharePage implements OnClickListener, TextWa
         this.sp = sp;
     }
 
+    @Override
     public void setActivity(Activity activity) {
         super.setActivity(activity);
         if (isDialogMode()) {
@@ -103,6 +104,7 @@ public class EditPage extends OnekeySharePage implements OnClickListener, TextWa
         activity.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE | WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
     }
 
+    @Override
     public void onCreate() {
         activity.getWindow().setBackgroundDrawable(new ColorDrawable(0xfff3f3f3));
     }
@@ -163,6 +165,7 @@ public class EditPage extends OnekeySharePage implements OnClickListener, TextWa
         page.showForResult(MobSDK.getContext(), null, this);
     }
 
+    @Override
     public void onResult(HashMap<String, Object> data) {
         String atText = getJoinSelectedUser(data);
         if (!TextUtils.isEmpty(atText)) {
@@ -190,6 +193,7 @@ public class EditPage extends OnekeySharePage implements OnClickListener, TextWa
         return "SinaWeibo".equals(platformName) || "TencentWeibo".equals(platformName) || "Facebook".equals(platformName) || "Twitter".equals(platformName);
     }
 
+    @Override
     public void onClick(View v) {
         if (v.equals(tvCancel)) {
             cancelAndFinish();
@@ -209,6 +213,7 @@ public class EditPage extends OnekeySharePage implements OnClickListener, TextWa
         }
     }
 
+    @Override
     public void onTextChanged(CharSequence s, int start, int before, int count) {
         tvTextCouter.setText(String.valueOf(s.length()));
 
@@ -224,6 +229,7 @@ public class EditPage extends OnekeySharePage implements OnClickListener, TextWa
     /**
      * 动态适配编辑界面的高度
      */
+    @Override
     public void run() {
         int height = svContent.getChildAt(0).getHeight();
         RelativeLayout.LayoutParams lp = ResHelper.forceCast(svContent.getLayoutParams());
@@ -236,14 +242,17 @@ public class EditPage extends OnekeySharePage implements OnClickListener, TextWa
         }
     }
 
+    @Override
     public void afterTextChanged(Editable s) {
 
     }
 
+    @Override
     public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
     }
 
+    @Override
     public void onPause() {
         DeviceHelper.getInstance(activity).hideSoftInput(getContentView());
         super.onPause();

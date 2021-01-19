@@ -48,6 +48,7 @@ public class PicViewerPage extends OnekeySharePage implements OnGlobalLayoutList
         this.pic = pic;
     }
 
+    @Override
     public void onCreate() {
         activity.getWindow().setBackgroundDrawable(new ColorDrawable(0x4c000000));
 
@@ -59,6 +60,7 @@ public class PicViewerPage extends OnekeySharePage implements OnGlobalLayoutList
         }
     }
 
+    @Override
     public void onGlobalLayout() {
         sivViewer.getViewTreeObserver().removeGlobalOnLayoutListener(this);
         sivViewer.post(() -> sivViewer.setBitmap(pic));

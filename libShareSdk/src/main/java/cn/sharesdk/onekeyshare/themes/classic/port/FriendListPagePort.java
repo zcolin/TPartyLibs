@@ -33,11 +33,13 @@ public class FriendListPagePort extends FriendListPage {
         super(impl);
     }
 
+    @Override
     protected float getRatio() {
         float screenWidth = ResHelper.getScreenWidth(activity);
         return screenWidth / DESIGN_SCREEN_WIDTH;
     }
 
+    @Override
     protected int getDesignTitleHeight() {
         return DESIGN_TITLE_HEIGHT;
     }

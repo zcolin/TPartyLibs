@@ -26,5 +26,4 @@ dependencies {
     api fileTree(include: ['*.jar'], dir: 'libs') 
     api files('libs/360update-5.0.4.jar')
     compileOnly "com.android.support:appcompat-v7:$supprotVersion"
-    testImplementation 'junit:junit:4.12'
 }

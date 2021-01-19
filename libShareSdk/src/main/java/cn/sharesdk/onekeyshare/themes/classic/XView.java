@@ -36,6 +36,7 @@ public class XView extends View {
         this.ratio = ratio;
     }
 
+    @Override
     protected void onDraw(Canvas canvas) {
         int width = getWidth() / 2;
         int height = getHeight() / 2;

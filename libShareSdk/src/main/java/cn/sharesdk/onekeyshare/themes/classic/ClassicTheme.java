@@ -36,6 +36,7 @@ public class ClassicTheme extends OnekeyShareThemeImpl {
     /**
      * 展示平台列表
      */
+    @Override
     protected void showPlatformPage(Context context) {
         PlatformPage page;
         int orientation = context.getResources().getConfiguration().orientation;
@@ -50,6 +51,7 @@ public class ClassicTheme extends OnekeyShareThemeImpl {
     /**
      * 展示编辑界面
      */
+    @Override
     protected void showEditPage(Context context, Platform platform, ShareParams sp) {
         EditPage page;
         int orientation = context.getResources().getConfiguration().orientation;

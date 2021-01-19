@@ -53,6 +53,7 @@ public class IndicatorView extends View {
         }
     }
 
+    @Override
     protected void onDraw(Canvas canvas) {
         if (count <= 1) {
             this.setVisibility(View.GONE);

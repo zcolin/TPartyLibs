@@ -67,6 +67,7 @@ public abstract class FriendListPage extends OnekeySharePage implements OnClickL
         this.platform = platform;
     }
 
+    @Override
     public void onCreate() {
         activity.getWindow().setBackgroundDrawable(new ColorDrawable(0xfff3f3f3));
 
@@ -154,6 +155,7 @@ public abstract class FriendListPage extends OnekeySharePage implements OnClickL
         tvConfirm.setOnClickListener(this);
     }
 
+    @Override
     public void onClick(View v) {
         if (v.equals(tvCancel)) {
             finish();
@@ -173,6 +175,7 @@ public abstract class FriendListPage extends OnekeySharePage implements OnClickL
         }
     }
 
+    @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         if ("FacebookMessenger".equals(platform.getName())) {
             if (lastPosition >= 0) {

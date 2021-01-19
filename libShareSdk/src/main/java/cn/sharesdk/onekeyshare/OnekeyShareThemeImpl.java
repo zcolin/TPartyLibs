@@ -118,16 +118,17 @@ public abstract class OnekeyShareThemeImpl implements PlatformActionListener, Ca
      */
     final boolean isUseClientToShare(Platform platform) {
         String name = platform.getName();
-        if ("Wechat".equals(name) || "WechatMoments".equals(name) || "WechatFavorite".equals(name) || "ShortMessage".equals(name) || "Email".equals(name) || 
-                "Qzone"
-                .equals(name) || "QQ".equals(name) || "Pinterest".equals(name) || "Instagram".equals(name) || "Yixin".equals(name) || "YixinMoments".equals
-                (name) || "QZone"
-                .equals(name) || "Mingdao".equals(name) || "Line".equals(name) || "KakaoStory".equals(name) || "KakaoTalk".equals(name) || "Bluetooth".equals
-                (name) || "WhatsApp"
-                .equals(name) || "BaiduTieba".equals(name) || "Laiwang".equals(name) || "LaiwangMoments".equals(name) || "Alipay".equals(name) || 
-                "AlipayMoments"
-                .equals(name) || "FacebookMessenger".equals(name) || "GooglePlus".equals(name) || "Dingding".equals(name) || "Youtube".equals(name) || 
-                "Meipai".equals(name)) {
+        if ("Wechat".equals(name) || "WechatMoments".equals(name) || "WechatFavorite".equals(name) || "ShortMessage".equals(
+                name) || "Email".equals(name) || "Qzone".equals(name) || "QQ".equals(name) || "Pinterest".equals(name) || "Instagram"
+                .equals(name) || "Yixin".equals(name) || "YixinMoments".equals(name) || "QZone".equals(name) ||
+                "Mingdao"
+                .equals(name) || "Line".equals(name) || "KakaoStory".equals(name) || "KakaoTalk".equals(name) ||
+                "Bluetooth"
+                .equals(name) || "WhatsApp".equals(name) || "BaiduTieba".equals(name) || "Laiwang".equals(name) ||
+                "LaiwangMoments"
+                .equals(name) || "Alipay".equals(name) || "AlipayMoments".equals(name) || "FacebookMessenger".equals(
+                name) || "GooglePlus".equals(name) || "Dingding".equals(name) || "Youtube".equals(name) || "Meipai".equals(
+                name)) {
             return true;
         } else if ("Evernote".equals(name)) {
             if ("true".equals(platform.getDevinfo("ShareByAppClient"))) {
@@ -266,9 +267,11 @@ public abstract class OnekeyShareThemeImpl implements PlatformActionListener, Ca
                 shareType = Platform.SHARE_IMAGE;
                 if (imagePath.endsWith(".gif") && isWechat) {
                     shareType = Platform.SHARE_EMOJI;
-                } else if (shareParamsMap.containsKey("url") && !TextUtils.isEmpty(shareParamsMap.get("url").toString())) {
+                } else if (shareParamsMap.containsKey("url") && !TextUtils.isEmpty(shareParamsMap.get("url")
+                                                                                                 .toString())) {
                     shareType = Platform.SHARE_WEBPAGE;
-                    if (shareParamsMap.containsKey("musicUrl") && !TextUtils.isEmpty(shareParamsMap.get("musicUrl").toString()) && isWechat) {
+                    if (shareParamsMap.containsKey("musicUrl") && !TextUtils.isEmpty(shareParamsMap.get("musicUrl")
+                                                                                                   .toString()) && isWechat) {
                         shareType = Platform.SHARE_MUSIC;
                     }
                 }
@@ -278,7 +281,8 @@ public abstract class OnekeyShareThemeImpl implements PlatformActionListener, Ca
                     shareType = Platform.SHARE_IMAGE;
                     if (shareParamsMap.containsKey("url") && !TextUtils.isEmpty(shareParamsMap.get("url").toString())) {
                         shareType = Platform.SHARE_WEBPAGE;
-                        if (shareParamsMap.containsKey("musicUrl") && !TextUtils.isEmpty(shareParamsMap.get("musicUrl").toString()) && isWechat) {
+                        if (shareParamsMap.containsKey("musicUrl") && !TextUtils.isEmpty(shareParamsMap.get("musicUrl")
+                                                                                                       .toString()) && isWechat) {
                             shareType = Platform.SHARE_MUSIC;
                         }
                     }
@@ -288,9 +292,11 @@ public abstract class OnekeyShareThemeImpl implements PlatformActionListener, Ca
                         shareType = Platform.SHARE_IMAGE;
                         if (String.valueOf(imageUrl).endsWith(".gif") && isWechat) {
                             shareType = Platform.SHARE_EMOJI;
-                        } else if (shareParamsMap.containsKey("url") && !TextUtils.isEmpty(shareParamsMap.get("url").toString())) {
+                        } else if (shareParamsMap.containsKey("url") && !TextUtils.isEmpty(shareParamsMap.get("url")
+                                                                                                         .toString())) {
                             shareType = Platform.SHARE_WEBPAGE;
-                            if (shareParamsMap.containsKey("musicUrl") && !TextUtils.isEmpty(shareParamsMap.get("musicUrl").toString()) && isWechat) {
+                            if (shareParamsMap.containsKey("musicUrl") && !TextUtils.isEmpty(shareParamsMap.get(
+                                    "musicUrl").toString()) && isWechat) {
                                 shareType = Platform.SHARE_MUSIC;
                             }
                         }
@@ -346,6 +352,7 @@ public abstract class OnekeyShareThemeImpl implements PlatformActionListener, Ca
 
     protected abstract void showEditPage(Context context, Platform platform, ShareParams sp);
 
+    @Override
     public final void onComplete(Platform platform, int action, HashMap<String, Object> res) {
         Message msg = new Message();
         msg.arg1 = 1;
@@ -354,6 +361,7 @@ public abstract class OnekeyShareThemeImpl implements PlatformActionListener, Ca
         UIHandler.sendMessage(msg, this);
     }
 
+    @Override
     public final void onError(Platform platform, int action, Throwable t) {
         t.printStackTrace();
 
@@ -367,6 +375,7 @@ public abstract class OnekeyShareThemeImpl implements PlatformActionListener, Ca
         ShareSDK.logDemoEvent(4, platform);
     }
 
+    @Override
     public final void onCancel(Platform platform, int action) {
         Message msg = new Message();
         msg.arg1 = 3;
@@ -378,6 +387,7 @@ public abstract class OnekeyShareThemeImpl implements PlatformActionListener, Ca
         ShareSDK.logDemoEvent(5, platform);
     }
 
+    @Override
     public final boolean handleMessage(Message msg) {
         switch (msg.arg1) {
             case 1: {
@@ -391,14 +401,15 @@ public abstract class OnekeyShareThemeImpl implements PlatformActionListener, Ca
             case 2: {
                 // 失败
                 String expName = msg.obj.getClass().getSimpleName();
-                if ("WechatClientNotExistException".equals(expName) || "WechatTimelineNotSupportedException".equals(expName) || "WechatFavoriteNotSupportedException"
-                        .equals(expName)) {
+                if ("WechatClientNotExistException".equals(expName) || "WechatTimelineNotSupportedException".equals(
+                        expName) || "WechatFavoriteNotSupportedException".equals(expName)) {
                     toast("ssdk_wechat_client_inavailable");
                 } else if ("GooglePlusClientNotExistException".equals(expName)) {
                     toast("ssdk_google_plus_client_inavailable");
                 } else if ("QQClientNotExistException".equals(expName)) {
                     toast("ssdk_qq_client_inavailable");
-                } else if ("YixinClientNotExistException".equals(expName) || "YixinTimelineNotSupportedException".equals(expName)) {
+                } else if ("YixinClientNotExistException".equals(expName) || "YixinTimelineNotSupportedException".equals(
+                        expName)) {
                     toast("ssdk_yixin_client_inavailable");
                 } else if ("KakaoTalkClientNotExistException".equals(expName)) {
                     toast("ssdk_kakaotalk_client_inavailable");
@@ -418,6 +429,8 @@ public abstract class OnekeyShareThemeImpl implements PlatformActionListener, Ca
                 toast("ssdk_oks_share_canceled");
             }
             break;
+            default:
+                break;
         }
         return false;
     }

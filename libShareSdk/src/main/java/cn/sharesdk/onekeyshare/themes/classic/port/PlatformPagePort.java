@@ -32,11 +32,13 @@ public class PlatformPagePort extends PlatformPage {
         super(impl);
     }
 
+    @Override
     public void onCreate() {
         requestPortraitOrientation();
         super.onCreate();
     }
 
+    @Override
     protected PlatformPageAdapter newAdapter(ArrayList<Object> cells) {
         return new PlatformPageAdapterPort(this, cells);
     }

@@ -56,6 +56,7 @@ public class EditPageLand extends EditPage implements OnClickListener, TextWatch
         super(impl);
     }
 
+    @Override
     public void onCreate() {
         super.onCreate();
 
@@ -165,6 +166,7 @@ public class EditPageLand extends EditPage implements OnClickListener, TextWatch
         llContent.addView(rlThumb, lp);
 
         aivThumb = new AsyncImageView(activity) {
+            @Override
             public void onImageGot(String url, Bitmap bm) {
                 thumb = bm;
                 super.onImageGot(url, bm);

@@ -40,6 +40,7 @@ public class PlatformPageAdapterLand extends PlatformPageAdapter {
         super(page, cells);
     }
 
+    @Override
     protected void calculateSize(Context context, ArrayList<Object> plats) {
         int screenWidth = ResHelper.getScreenWidth(context);
         float ratio = ((float) screenWidth) / DESIGN_SCREEN_WIDTH_L;
@@ -55,6 +56,7 @@ public class PlatformPageAdapterLand extends PlatformPageAdapter {
         panelHeight = cellHeight + sepLineWidth;
     }
 
+    @Override
     protected void collectCells(ArrayList<Object> plats) {
         int count = plats.size();
         if (count < lineSize) {

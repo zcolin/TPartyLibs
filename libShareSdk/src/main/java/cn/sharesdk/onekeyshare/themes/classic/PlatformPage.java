@@ -19,7 +19,6 @@ package cn.sharesdk.onekeyshare.themes.classic;
 
 import android.graphics.drawable.ColorDrawable;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.ViewGroup.LayoutParams;
 import android.view.animation.Animation;
 import android.view.animation.TranslateAnimation;
@@ -65,6 +64,7 @@ public abstract class PlatformPage extends OnekeySharePage {
         this.impl = ResHelper.forceCast(impl);
     }
 
+    @Override
     public void onCreate() {
         activity.getWindow().setBackgroundDrawable(new ColorDrawable(0x4c000000));
         initAnims();
@@ -164,6 +164,7 @@ public abstract class PlatformPage extends OnekeySharePage {
         animHide.setDuration(300);
     }
 
+    @Override
     public boolean onFinish() {
         if (finished) {
             finished = false;
@@ -171,14 +172,17 @@ public abstract class PlatformPage extends OnekeySharePage {
         }
 
         animHide.setAnimationListener(new Animation.AnimationListener() {
+            @Override
             public void onAnimationStart(Animation animation) {
 
             }
 
+            @Override
             public void onAnimationRepeat(Animation animation) {
 
             }
 
+            @Override
             public void onAnimationEnd(Animation animation) {
                 if (beforeFinish == null) {
                     // 取消分享菜单的统计
